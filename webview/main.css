@@ -116,11 +116,11 @@ ul {
     transition: ease-out transform 2s;
   }
 
-  a video {
+  #gallery a video {
     opacity: 0;
   }
 
-  a img, a video {
+  #gallery a img, a video {
     height: 100%;
     max-height: 100%;
     min-width: 100%;
@@ -200,8 +200,13 @@ ul {
       min-width: 0;
     }
 
-    footer {
-      padding-left: 5px !important;
+    footer span {
+      margin-left: 5px !important;
+      font-size: 0.75em;
+    }
+
+    footer a {
+      margin-right: 5px !important;
     }
   }
 
@@ -275,7 +280,6 @@ ul {
 
   footer {
     border-top: 1px solid #555;
-    padding-left: 10%;
     height: 32px;
     line-height: 32px;
     z-index: 3;
@@ -284,4 +288,22 @@ ul {
     bottom: 0;
     border-top: 1px solid #d90429;
     background-color: white;
+    font-size: 1em;
+  }
+
+  footer span {
+    margin-left: 10%;
+    width: 100%;
+  }
+
+  footer a {
+    float: right;
+    margin-right: 10%;
+    width: 32px;
+    height: 32px;
+  }
+
+  footer img {
+    margin-top: 3px;
+    height: 26px;
   }
