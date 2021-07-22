@@ -84,14 +84,14 @@ html, body {
   }
 }
 
-ul {
+#gallery ul {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
     margin-top: 0;
   }
   
-  li {
+  #gallery li {
     height: 40vh;
     flex-grow: 1;
     list-style: none;
@@ -100,18 +100,18 @@ ul {
     border: 1px solid #555;
   }
 
-  li a {
+  #gallery li a {
     width: 100%;
     height: 100%;
     cursor: pointer;
   }
 
-  li:hover .imageInfo, li:hover .shadow, li:hover .newTab {
+  #gallery li:hover .imageInfo, #gallery li:hover .shadow, #gallery li:hover .newTab {
     display: block;
     opacity: 1;
   }
 
-  li:hover .preload {
+  #gallery li:hover .preload {
     transform: scale(1.05); 
     transition: ease-out transform 2s;
   }
@@ -130,7 +130,7 @@ ul {
     transform: scale(1.1); 
   }
 
-  .imageInfo {
+  #gallery .imageInfo {
     position: absolute;
     height: 16px;
     bottom: 8px;
@@ -142,7 +142,7 @@ ul {
     z-index: 2;
   }
 
-  .preload {
+  #gallery .preload {
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -156,7 +156,7 @@ ul {
     transition: ease-out transform 1s;
   }
 
-  .shadow {
+  #gallery .shadow {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -167,7 +167,7 @@ ul {
     z-index: 1;
   }
 
-  li:last-child {
+  #gallery li:last-child {
     flex-grow: 10;
     /* background-color: grey; */
   }
@@ -194,7 +194,7 @@ ul {
       width: 100%;
     }
   
-    a img {
+    #gallery a img {
       width: 100%;
       max-height: 75vh;
       min-width: 0;
@@ -210,7 +210,7 @@ ul {
     }
   }
 
-  .newTab {
+  #gallery .newTab {
     position: absolute;
     bottom: 10px; 
     right: 10px;
@@ -220,7 +220,7 @@ ul {
     z-index: 2;
   }
 
-  .newTab a {
+  #gallery .newTab a {
     display: block;
     width: 35px;
     height: 35px;
@@ -228,14 +228,14 @@ ul {
     margin: 5px;
   }
 
-  .newTab img {
+  #gallery .newTab img {
     width: 100%;
     height: 100%;
     margin: 5px;
     filter: invert(0.75);
   }
 
-  .newTabShadow {
+  #gallery .newTabShadow {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -246,15 +246,15 @@ ul {
     z-index: 1;    
   }
 
-  li:hover .newTabShadow {
+  #gallery li:hover .newTabShadow {
     opacity: 1;
   }
 
-  .newTab a:hover {
+  #gallery .newTab a:hover {
     transform: scale(1.1);
   }
 
-  .playButtonWrapper {
+  #gallery .playButtonWrapper {
     display: none;
     height: 100%;
     width: 100%;
@@ -262,7 +262,7 @@ ul {
     position: absolute;
   }
 
-  .playButtonWrapper img {
+  #gallery .playButtonWrapper img {
     width: 50px;
     height: 50px;
     opacity: 0.75;
@@ -271,7 +271,7 @@ ul {
     min-width: 0;
   }
 
-  li:hover .playButtonWrapper {
+  #gallery li:hover .playButtonWrapper {
     display: flex;
     align-items: center;
     height: 100%;
