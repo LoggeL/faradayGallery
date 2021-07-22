@@ -1,0 +1,17 @@
+{
+  "name": "faradaygallery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "express": "^4.17.1",
+    "knex": "^0.95.7",
+    "sqlite3": "^5.0.2"
+  }
+}

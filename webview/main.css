@@ -1,0 +1,287 @@
+@font-face {  
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; 
+  unicode-range: U+000-5FF;
+  src: local('Montserrat'),
+  url('Montserrat.woff2') format('woff2');
+}
+
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: 'Montserrat';
+    color: #d90429;
+}
+
+#preloader {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: white;
+  z-index: 5000;
+  opacity: 1;
+  transition: ease-in-out opacity 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#progress-container{
+  width:95%;
+  margin:10px auto;
+  text-align:center;
+}
+
+#progress-out{
+  width: 50%;
+  margin: 5px auto;
+  background:#fff;
+  height:20px;
+  border-radius: 5px;
+  border: 1px #d90429 solid;
+}
+
+#progress-in{
+  border-radius:5px;
+  width: 0px;
+  height: 20px;
+  background:#d90429;
+}
+
+#preloader img {
+  width: 40%;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 190px;
+  height: 190px;
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 128px;
+  height: 128px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 12px solid #d90429;
+  border-color:#d90429 transparent#d90429 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-top: 0;
+  }
+  
+  li {
+    height: 40vh;
+    flex-grow: 1;
+    list-style: none;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #555;
+  }
+
+  li a {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  li:hover .imageInfo, li:hover .shadow, li:hover .newTab {
+    display: block;
+    opacity: 1;
+  }
+
+  li:hover .preload {
+    transform: scale(1.05); 
+    transition: ease-out transform 2s;
+  }
+
+  a video {
+    opacity: 0;
+  }
+
+  a img, a video {
+    height: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+    transition: opacity 1s;
+    transform: scale(1.1); 
+  }
+
+  .imageInfo {
+    position: absolute;
+    height: 16px;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    color: white;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  .preload {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: -1;
+    transform: scale(1.0); 
+    transition: ease-out transform 1s;
+  }
+
+  .shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 25px 100px 0 rgba(0,0,0,0.75);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  li:last-child {
+    flex-grow: 10;
+    /* background-color: grey; */
+  }
+
+  @media (max-aspect-ratio: 1/1) {
+    li {
+      height: 30vh;
+    }
+  }
+
+  @media (max-height: 480px) {
+    li {
+      height: 80vh;
+    }
+  }
+
+  @media (max-aspect-ratio: 1/1) and (max-width: 480px) {
+    ul {
+      flex-direction: row;
+    }
+  
+    li {
+      height: auto;
+      width: 100%;
+    }
+  
+    a img {
+      width: 100%;
+      max-height: 75vh;
+      min-width: 0;
+    }
+
+    footer {
+      padding-left: 5px !important;
+    }
+  }
+
+  .newTab {
+    position: absolute;
+    bottom: 10px; 
+    right: 10px;
+    width: auto;
+    height: auto;
+    display: none;
+    z-index: 2;
+  }
+
+  .newTab a {
+    display: block;
+    width: 35px;
+    height: 35px;
+    float: left;
+    margin: 5px;
+  }
+
+  .newTab img {
+    width: 100%;
+    height: 100%;
+    margin: 5px;
+    filter: invert(0.75);
+  }
+
+  .newTabShadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 -50px 10px 0 rgb(0 0 0 / 30%);
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;    
+  }
+
+  li:hover .newTabShadow {
+    opacity: 1;
+  }
+
+  .newTab a:hover {
+    transform: scale(1.1);
+  }
+
+  .playButtonWrapper {
+    display: none;
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+    position: absolute;
+  }
+
+  .playButtonWrapper img {
+    width: 50px;
+    height: 50px;
+    opacity: 0.75;
+    margin: 0 auto;
+    display: block;
+    min-width: 0;
+  }
+
+  li:hover .playButtonWrapper {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+
+  footer {
+    border-top: 1px solid #555;
+    padding-left: 10%;
+    height: 32px;
+    line-height: 32px;
+    z-index: 3;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    border-top: 1px solid #d90429;
+    background-color: white;
+  }
