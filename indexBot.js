@@ -86,4 +86,4 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
     }
 })
 
-client.login(config.token);
+client.login(config.token).catch(console.error)
