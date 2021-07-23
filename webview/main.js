@@ -16,19 +16,20 @@ fetch('../pageCount').then(response => response.json().then(pages => {
 }))
 
 pageInput.onchange = e => {
+    e.target.value = parseInt(e.target.value)
     if (e.target.value > maxPages) e.target.value = maxPages
     if (e.target.value < 1) e.target.value = 1
-    changePage(e.target.value)
+    changePage(Number(e.target.value))
 }
 
 pagination.firstElementChild.onclick = e => {
     if (currentPage == 1) return
-    changePage(currentPage - 1)
+    changePage(Number(currentPage) - 1)
 }
 
 pagination.lastElementChild.onclick = e => {
     if (currentPage == maxPages) return
-    changePage(currentPage + 1)
+    changePage(Number(currentPage) + 1)
 }
 
 function changePage(page) {

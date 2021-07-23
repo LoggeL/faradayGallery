@@ -89,6 +89,7 @@ html, body {
     flex-wrap: wrap;
     padding-left: 0;
     margin-top: 0;
+    padding-bottom: 64px;
   }
   
   #gallery li {
