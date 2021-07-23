@@ -57,6 +57,8 @@ client.on('messageUpdate', (oldMessage, newMessage) => {
             const vidResponse = await fetch(`${prefix}${tempStorage[fileWithoutEnding].vidKey}/${tempStorage[fileWithoutEnding].name}.mp4`, { method: 'HEAD' })
             if (vidResponse.status == 403) return delete tempStorage[fileWithoutEnding];
 
+            console.log('data', tempStorage[fileWithoutEnding])
+
             if (duplicate.length == 0) await db('data').insert(tempStorage[fileWithoutEnding])
             delete tempStorage[fileWithoutEnding];
 
