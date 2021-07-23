@@ -3,6 +3,15 @@ const fetch = require('node-fetch')
 
 const prefix = 'https://cdn.discordapp.com/attachments/838682121975234571/'
 
+// Connect to the Database file
+const db = require('knex')({
+    client: 'sqlite3',
+    connection: {
+        filename: './data.sqlite',
+    },
+    useNullAsDefault: true
+})
+
 const config = require('./config.json')
 const client = new Discord.Client()
 
