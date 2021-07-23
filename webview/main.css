@@ -278,6 +278,54 @@ html, body {
   }
 
 
+  .pagination {
+    display: flex;
+    justify-content: space-around;
+    height: 32px;
+    position: fixed;
+    margin-bottom: 33px;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 3;
+  }
+  
+  .pagination div {
+    float: left;
+    border-top: 1px solid #d90429;
+    border-left: 1px solid #d90429;
+    padding: 5px 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .pagination div:hover {
+    background-color: #ddd;
+  }
+
+  .pagination div a {
+    text-decoration: none;
+    color: #d90429;
+    width: 100%;
+    display: block;
+  }
+
+  .pagination input {
+    font-family: 'Montserrat';
+    color: #d90429;
+    text-align: center;
+    width: 50px;
+  }
+
+  .pagination div.disabled {
+    cursor: not-allowed;
+  }
+
+  .pagination div.disabled a {
+    cursor: not-allowed;
+    color: #555 !important;
+  }
+
   footer {
     border-top: 1px solid #555;
     height: 32px;
