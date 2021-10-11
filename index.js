@@ -55,6 +55,6 @@ app.post('/pageCount', async (req, res) => {
     res.status(200).json(pageCount)
 })
 
-app.listen(8080, () => {
+app.listen(3002, () => {
     console.log('App listening on port 3002!');
 });
