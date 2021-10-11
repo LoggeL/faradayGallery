@@ -5,15 +5,33 @@ let maxPages
 
 const pagination = document.querySelector('.pagination')
 const pageInput = pagination.querySelector('input')
+const search = document.getElementById('search')
+let searchTerm
 
 // Loads pagination
-fetch('../pageCount').then(response => response.json().then(pages => {
-    maxPages = pages
-    pagination.querySelector('span').innerText = maxPages
-    pageInput.setAttribute('min', 1)
-    pageInput.setAttribute('max', maxPages)
-    pageInput.value = currentPage
-}))
+function updatePagination() {
+    fetch('pageCount', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            search: searchTerm
+        })
+    }).then(response => response.json().then(pages => {
+        maxPages = pages
+        pagination.querySelector('span').innerText = maxPages
+        pageInput.setAttribute('min', 1)
+        pageInput.setAttribute('max', maxPages)
+        pageInput.value = currentPage
+        if (currentPage == 1) pagination.firstElementChild.className = 'disabled'
+        else pagination.firstElementChild.className = ''
+
+        if (currentPage == maxPages) pagination.lastElementChild.className = 'disabled'
+        else pagination.lastElementChild.className = ''
+    }))
+}
+updatePagination()
 
 pageInput.onchange = e => {
     e.target.value = parseInt(e.target.value)
@@ -32,6 +50,20 @@ pagination.lastElementChild.onclick = e => {
     changePage(Number(currentPage) + 1)
 }
 
+search.onkeyup = e => {
+    if (e.keyCode == 13) {
+        search.value = search.value.trim()
+        if (search.value.length < 2) {
+            search.value = ''
+            searchTerm = ''
+            alert("Search value must be longer than 1 character")
+        } else {
+            searchTerm = search.value
+        }
+        popuplateGallery()
+    }
+}
+
 function changePage(page) {
     pagination.lastElementChild.className = ''
     pagination.firstElementChild.className = ''
@@ -39,14 +71,24 @@ function changePage(page) {
     currentPage = page
     pageInput.value = currentPage
     if (page == 1) pagination.firstElementChild.className = 'disabled'
-    else if (page == maxPages) pagination.lastElementChild.className = 'disabled'
+    if (page == maxPages) pagination.lastElementChild.className = 'disabled'
     popuplateGallery()
 }
 
 popuplateGallery()
 
 function popuplateGallery() {
-    fetch('../data?page=' + currentPage).then(response => response.json().then(pictures => {
+    updatePagination()
+    fetch(searchTerm ? 'search' : 'data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            page: currentPage,
+            search: searchTerm
+        })
+    }).then(response => response.json().then(pictures => {
         document.getElementById('gallery').innerHTML = ''
 
         const ul = document.createElement('ul')
