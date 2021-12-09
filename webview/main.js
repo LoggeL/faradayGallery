@@ -64,6 +64,10 @@ search.onkeyup = e => {
     }
 }
 
+document.querySelector('.filterBest select').onchange = () => {
+    popuplateGallery()
+}
+
 function changePage(page) {
     pagination.lastElementChild.className = ''
     pagination.firstElementChild.className = ''
@@ -79,14 +83,18 @@ popuplateGallery()
 
 function popuplateGallery() {
     updatePagination()
-    fetch(searchTerm ? 'search' : 'data', {
+
+    const likedDays = document.querySelector('.filterBest select').value
+
+    fetch('data', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
             page: currentPage,
-            search: searchTerm
+            search: searchTerm,
+            likedDays: likedDays
         })
     }).then(response => response.json().then(pictures => {
         document.getElementById('gallery').innerHTML = ''
@@ -128,15 +136,57 @@ function popuplateGallery() {
             const text = document.createElement('div')
             text.className = 'imageInfo'
             text.innerText = picture.name.split('_').splice(1).join(' ')
-            li.onclick = () => {
-                const vid = li.querySelector('video')
-                const playBtn = li.querySelector('.playButtonWrapper')
-                if (playBtn) playBtn.remove()
-                vid.style.opacity = 1
-                setTimeout(() => {
-                    vid.play()
-                }, 1000)
+
+            const like = document.createElement('div')
+            like.innerText = picture.votes
+            like.className = 'like'
+
+            const likeBtn = document.createElement('a')
+            likeBtn.className = 'likeButton'
+            likeBtn.onclick = e => {
+                e.preventDefault()
+                likeBtn.classList.add('liked')
+                heart.src = 'heart-solid.svg'
+                fetch('challenge', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: picture.id
+                    })
+                }).then(response => response.json().then(data => {
+
+                    if (data.error) return
+                    const PoWWorker = new Worker('worker.js');
+                    PoWWorker.postMessage({
+                        input: data.hash,
+                        complexity: data.complexity
+                    });
+
+                    PoWWorker.onmessage = solution => {
+                        fetch('vote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: data.id,
+                                captchaToken: solution.data,
+                            })
+                        }).then(response => response.json().then(data => {
+                            console.log(data)
+                        })).finally(() => PoWWorker.terminate())
+                    }
+                }))
             }
+
+            const heart = document.createElement('img')
+            heart.src = 'heart-outline.svg'
+            likeBtn.appendChild(heart)
+
+            like.appendChild(likeBtn)
+
 
             const newTab = document.createElement('div')
             newTab.className = 'newTab'
@@ -171,7 +221,18 @@ function popuplateGallery() {
             playButtonWrapper.className = 'playButtonWrapper'
 
             const playButton = document.createElement('img')
+            playButton.className = 'playButton'
             playButton.src = 'play.svg'
+
+            playButton.onclick = () => {
+                const vid = li.querySelector('video')
+                const playBtn = li.querySelector('.playButtonWrapper')
+                if (playBtn) playBtn.remove()
+                vid.style.opacity = 1
+                setTimeout(() => {
+                    vid.play()
+                }, 1000)
+            }
 
             playButtonWrapper.append(playButton)
             a.append(playButtonWrapper)
@@ -196,6 +257,7 @@ function popuplateGallery() {
             }
             preloadImg.src = `${prefix}/${picture.imgKey}/${picture.name}.jpg`
 
+            a.append(like)
             a.append(newTab)
             a.append(video)
             a.append(preloadImg)

@@ -1,4 +1,7 @@
 const express = require('express');
+const crypto = require('crypto');
+
+const { salt, complexity} = require('./config.json');
 
 // Connect to the Database file
 const db = require('knex')({
@@ -23,24 +26,31 @@ app.get('/', (req, res) => {
 });
 
 app.post('/data', async (req, res) => {
+    const search = req.body.search || ''
     const page = req.body.page || 1
-    // paginate data from the db
-    const data = await db('data').select('*')
-        .offset(pageLimit * (page - 1))
-        .limit(pageLimit)
-        .orderBy('createdAt', 'desc')
-    res.status(200).json(data)
-})
+    const likedDays = req.body.likedDays || 0
 
-app.post('/search', async (req, res) => {
-    console.log(req.body)
-    const { search, page } = req.body
-    if (search.length < 2) return res.status(400).json({ error: 'Search term must be at least 2 characters long' })
-    const data = await db('data').select('*')
-        .where('name', 'like', `%${search.split(' ').join('_')}%`) // replace spaces with underscores
-        .offset(pageLimit * (page - 1))
+    let baseQuery = db('data')
+    if (search) {
+        baseQuery = baseQuery.where('name', 'like', `%${search.split(' ').join('_')}%`) // replace spaces with underscores
+    } 
+     
+    baseQuery = baseQuery.leftJoin('vote', 'data.id', '=', 'vote.data_id')
+        .count('vote.data_id', { as: 'votes' })
+        .groupBy('data.id')
+        .select('data.*')
+
+    if (likedDays > 0) {
+        baseQuery = baseQuery.orderBy('votes', 'desc').where('vote.timestamp', '>', Date.now() - likedDays * 24 * 60 * 60 * 1000)
+
+    } else {
+        baseQuery = baseQuery.orderBy('createdAt', 'desc')
+    }
+
+    const data = await baseQuery.offset(pageLimit * (page - 1))
         .limit(pageLimit)
-        .orderBy('createdAt', 'desc')
+        
+    
     res.status(200).json(data)
 })
 
@@ -53,6 +63,54 @@ app.post('/pageCount', async (req, res) => {
     else data = await db('data').count('* as itemCount').first()
     const pageCount = Math.floor(data.itemCount / pageLimit) + 1
     res.status(200).json(pageCount)
+})
+
+
+// Proof of work
+app.post('/challenge', async (req, res) => {
+    // generate a challenge for the user
+    const IP = req.headers['x-forwarded-for'] || req.headers['CF-Connecting-IP'] || req.connection.remoteAddress
+    const { id } = req.body
+
+    // Hash the ip
+    const hashedIP = crypto.createHash('sha256').update(IP).digest('hex')
+
+    // check if the IP has already voted
+    const IPExists = await db('vote').where('data_id', id).where('hash', hashedIP).first()
+    if (IPExists) return res.status(400).json({ error: 'You have already voted' })
+
+    const hash = crypto.createHash('sha256').update(id.toString('16')).update(hashedIP).update(salt).digest('hex')
+    res.status(200).json({ hash, complexity, id })
+})
+
+app.post('/vote', async (req, res) => {
+    const IP = req.headers['x-forwarded-for'] || req.headers['CF-Connecting-IP'] || req.connection.remoteAddress
+    const { id, captchaToken } = req.body
+
+    // Hash the ip
+    const hashedIP = crypto.createHash('sha256').update(IP).digest('hex')
+
+    // check if the captcha token is valid
+    // validate Token
+    const baseHash = crypto.createHash('sha256').update(id.toString('16')).update(hashedIP).update(salt).digest('hex')
+    const finalHash = crypto.createHash('sha256').update(baseHash + captchaToken).digest('hex')
+    if (!finalHash.endsWith('0'.repeat(complexity))) return res.status(400).json({ error: 'Captcha token is invalid' })
+
+
+    // check if the IP has already voted
+    const IPExists = await db('vote').where('data_id', id).where('hash', hashedIP).first()
+    if (IPExists) return res.status(400).json({ error: 'You have already voted' })
+
+    // check if the id exists
+    const data = await db('data').where('id', id).first()
+    if (!data) return res.status(400).json({ error: 'Invalid ID' })
+
+    // add the vote to the database
+    await db('vote').insert({
+        data_id: id,
+        hash: hashedIP,
+        timestamp: Date.now()
+    })      
 })
 
 app.listen(3002, () => {

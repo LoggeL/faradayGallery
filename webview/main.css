@@ -1,20 +1,19 @@
-@font-face {  
+@font-face {
   font-family: 'Montserrat';
   font-weight: 400;
   font-style: normal;
-  font-display: swap; 
+  font-display: swap;
   unicode-range: U+000-5FF;
-  src: local('Montserrat'),
-  url('Montserrat.woff2') format('woff2');
+  src: local('Montserrat'), url('Montserrat.woff2') format('woff2');
 }
 
-
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    font-family: 'Montserrat';
-    color: #d90429;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: 'Montserrat';
+  color: #d90429;
 }
 
 #preloader {
@@ -31,26 +30,26 @@ html, body {
   flex-direction: column;
 }
 
-#progress-container{
-  width:95%;
-  margin:10px auto;
-  text-align:center;
+#progress-container {
+  width: 95%;
+  margin: 10px auto;
+  text-align: center;
 }
 
-#progress-out{
+#progress-out {
   width: 50%;
   margin: 5px auto;
-  background:#fff;
-  height:20px;
+  background: #fff;
+  height: 20px;
   border-radius: 5px;
   border: 1px #d90429 solid;
 }
 
-#progress-in{
-  border-radius:5px;
+#progress-in {
+  border-radius: 5px;
   width: 0px;
   height: 20px;
-  background:#d90429;
+  background: #d90429;
 }
 
 #preloader img {
@@ -64,14 +63,14 @@ html, body {
 }
 
 .lds-dual-ring:after {
-  content: " ";
+  content: ' ';
   display: block;
   width: 128px;
   height: 128px;
   margin: 8px;
   border-radius: 50%;
   border: 12px solid #d90429;
-  border-color:#d90429 transparent#d90429 transparent;
+  border-color: #d90429 transparent#d90429 transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 
@@ -107,275 +106,322 @@ html, body {
   background-color: #eee;
 }
 
+.filterBest {
+  float: right;
+  margin-right: 5%;
+  overflow: hidden;
+}
+
 #gallery ul {
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 0;
-    margin-top: 0;
-    padding-bottom: 64px;
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-top: 0;
+  padding-bottom: 64px;
+}
+
+#gallery li {
+  height: 40vh;
+  flex-grow: 1;
+  list-style: none;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #555;
+}
+
+#gallery li a {
+  width: 100%;
+  height: 100%;
+}
+
+#gallery li:hover .imageInfo,
+#gallery li:hover .shadow,
+#gallery li:hover .newTab,
+#gallery li:hover .like {
+  display: block;
+  opacity: 1;
+}
+
+#gallery li:hover .preload {
+  transform: scale(1.05);
+  transition: ease-out transform 2s;
+}
+
+#gallery a video {
+  opacity: 0;
+}
+
+#gallery a img,
+a video {
+  height: 100%;
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+  transition: opacity 1s;
+  transform: scale(1.1);
+}
+
+#gallery .imageInfo {
+  position: absolute;
+  height: 16px;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  color: white;
+  opacity: 0;
+  z-index: 2;
+}
+
+#gallery .preload {
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -1;
+  transform: scale(1);
+  transition: ease-out transform 1s;
+}
+
+#gallery .shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 25px 100px 0 rgba(0, 0, 0, 0.75);
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+#gallery li:last-child {
+  flex-grow: 10;
+  /* background-color: grey; */
+}
+
+@media (max-aspect-ratio: 1/1) {
+  li {
+    height: 30vh;
   }
-  
-  #gallery li {
-    height: 40vh;
-    flex-grow: 1;
-    list-style: none;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #555;
+}
+
+@media (max-height: 480px) {
+  li {
+    height: 80vh;
   }
+}
 
-  #gallery li a {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-
-  #gallery li:hover .imageInfo, #gallery li:hover .shadow, #gallery li:hover .newTab {
-    display: block;
-    opacity: 1;
-  }
-
-  #gallery li:hover .preload {
-    transform: scale(1.05); 
-    transition: ease-out transform 2s;
-  }
-
-  #gallery a video {
-    opacity: 0;
-  }
-
-  #gallery a img, a video {
-    height: 100%;
-    max-height: 100%;
-    min-width: 100%;
-    object-fit: cover;
-    vertical-align: bottom;
-    transition: opacity 1s;
-    transform: scale(1.1); 
-  }
-
-  #gallery .imageInfo {
-    position: absolute;
-    height: 16px;
-    bottom: 8px;
-    width: 100%;
-    text-align: center;
-    top: 0;
-    color: white;
-    opacity: 0;
-    z-index: 2;
-  }
-
-  #gallery .preload {
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    z-index: -1;
-    transform: scale(1.0); 
-    transition: ease-out transform 1s;
-  }
-
-  #gallery .shadow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    box-shadow: inset 0 25px 100px 0 rgba(0,0,0,0.75);
-    top: 0;
-    left: 0;
-    opacity: 0;
-    z-index: 1;
-  }
-
-  #gallery li:last-child {
-    flex-grow: 10;
-    /* background-color: grey; */
-  }
-
-  @media (max-aspect-ratio: 1/1) {
-    li {
-      height: 30vh;
-    }
-  }
-
-  @media (max-height: 480px) {
-    li {
-      height: 80vh;
-    }
-  }
-
-  @media (max-aspect-ratio: 1/1) and (max-width: 480px) {
-    ul {
-      flex-direction: row;
-    }
-  
-    li {
-      height: auto;
-      width: 100%;
-    }
-  
-    #gallery a img {
-      width: 100%;
-      max-height: 75vh;
-      min-width: 0;
-    }
-
-    footer span {
-      margin-left: 5px !important;
-      font-size: 0.75em;
-    }
-
-    footer a {
-      margin-right: 5px !important;
-    }
+@media (max-aspect-ratio: 1/1) and (max-width: 480px) {
+  ul {
+    flex-direction: row;
   }
 
-  #gallery .newTab {
-    position: absolute;
-    bottom: 10px; 
-    right: 10px;
-    width: auto;
+  li {
     height: auto;
-    display: none;
-    z-index: 2;
-  }
-
-  #gallery .newTab a {
-    display: block;
-    width: 35px;
-    height: 35px;
-    float: left;
-    margin: 5px;
-  }
-
-  #gallery .newTab img {
     width: 100%;
-    height: 100%;
-    margin: 5px;
-    filter: invert(0.75);
   }
 
-  #gallery .newTabShadow {
-    position: absolute;
+  #gallery a img {
     width: 100%;
-    height: 100%;
-    box-shadow: inset 0 -50px 10px 0 rgb(0 0 0 / 30%);
-    bottom: 0;
-    left: 0;
-    opacity: 0;
-    z-index: 1;    
-  }
-
-  #gallery li:hover .newTabShadow {
-    opacity: 1;
-  }
-
-  #gallery .newTab a:hover {
-    transform: scale(1.1);
-  }
-
-  #gallery .playButtonWrapper {
-    display: none;
-    height: 100%;
-    width: 100%;
-    vertical-align: middle;
-    position: absolute;
-  }
-
-  #gallery .playButtonWrapper img {
-    width: 50px;
-    height: 50px;
-    opacity: 0.75;
-    margin: 0 auto;
-    display: block;
+    max-height: 75vh;
     min-width: 0;
   }
 
-  #gallery li:hover .playButtonWrapper {
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
-
-
-  .pagination {
-    display: flex;
-    justify-content: space-around;
-    height: 32px;
-    position: fixed;
-    margin-bottom: 33px;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    z-index: 3;
-  }
-  
-  .pagination div {
-    float: left;
-    border-top: 1px solid #d90429;
-    border-left: 1px solid #d90429;
-    padding: 5px 0;
-    width: 100%;
-    text-align: center;
-  }
-
-  .pagination div:hover {
-    background-color: #ddd;
-  }
-
-  .pagination div a {
-    text-decoration: none;
-    color: #d90429;
-    width: 100%;
-    display: block;
-  }
-
-  .pagination input {
-    font-family: 'Montserrat';
-    color: #d90429;
-    text-align: center;
-    width: 50px;
-  }
-
-  .pagination div.disabled {
-    cursor: not-allowed;
-  }
-
-  .pagination div.disabled a {
-    cursor: not-allowed;
-    color: #555 !important;
-  }
-
-  footer {
-    border-top: 1px solid #555;
-    height: 32px;
-    line-height: 32px;
-    z-index: 3;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    border-top: 1px solid #d90429;
-    background-color: white;
-    font-size: 1em;
-  }
-
   footer span {
-    margin-left: 10%;
-    width: 100%;
+    margin-left: 5px !important;
+    font-size: 0.75em;
   }
 
   footer a {
-    float: right;
-    margin-right: 10%;
-    width: 32px;
-    height: 32px;
+    margin-right: 5px !important;
   }
+}
 
-  footer img {
-    margin-top: 3px;
-    height: 26px;
+#gallery .like {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: auto;
+  height: auto;
+  display: none;
+  z-index: 2;
+  cursor: pointer;
+}
+
+#gallery .newTab {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: auto;
+  height: auto;
+  display: none;
+  z-index: 2;
+  cursor: pointer;
+}
+
+#gallery .newTab a,
+#gallery .like a {
+  display: block;
+  width: 35px;
+  height: 35px;
+  float: left;
+  margin: 5px;
+}
+
+#gallery .newTab img,
+#gallery .like img {
+  width: 100%;
+  height: 100%;
+  margin: 5px;
+}
+
+#gallery .likeButton.liked {
+  animation: heartBeat 0.5s 2 alternate;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
   }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#gallery .newTab img {
+  filter: invert(0.75);
+}
+
+#gallery .newTabShadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 -50px 10px 0 rgb(0 0 0 / 30%);
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+#gallery li:hover .newTabShadow {
+  opacity: 1;
+}
+
+#gallery .newTab a:hover {
+  transform: scale(1.1);
+}
+
+#gallery .playButtonWrapper {
+  display: none;
+  height: 100%;
+  width: 100%;
+  vertical-align: middle;
+  position: absolute;
+}
+
+#gallery .playButtonWrapper img {
+  width: 50px;
+  height: 50px;
+  opacity: 0.75;
+  margin: 0 auto;
+  display: block;
+  min-width: 0;
+}
+
+#gallery li:hover .playButtonWrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+#gallery li:hover .playButton {
+  padding: 50px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-around;
+  height: 32px;
+  position: fixed;
+  margin-bottom: 33px;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 3;
+}
+
+.pagination div {
+  float: left;
+  border-top: 1px solid #d90429;
+  border-left: 1px solid #d90429;
+  padding: 5px 0;
+  width: 100%;
+  text-align: center;
+}
+
+.pagination div:hover {
+  background-color: #ddd;
+}
+
+.pagination div a {
+  text-decoration: none;
+  color: #d90429;
+  width: 100%;
+  display: block;
+}
+
+.pagination input {
+  font-family: 'Montserrat';
+  color: #d90429;
+  text-align: center;
+  width: 50px;
+}
+
+.pagination div.disabled {
+  cursor: not-allowed;
+}
+
+.pagination div.disabled a {
+  cursor: not-allowed;
+  color: #555 !important;
+}
+
+footer {
+  border-top: 1px solid #555;
+  height: 32px;
+  line-height: 32px;
+  z-index: 3;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  border-top: 1px solid #d90429;
+  background-color: white;
+  font-size: 1em;
+}
+
+footer span {
+  margin-left: 10%;
+  width: 100%;
+}
+
+footer a {
+  float: right;
+  margin-right: 10%;
+  width: 32px;
+  height: 32px;
+}
+
+footer img {
+  margin-top: 3px;
+  height: 26px;
+}

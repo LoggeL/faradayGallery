@@ -17,16 +17,6 @@ const client = new Discord.Client()
 
 client.on('ready', async () => {
     console.log('Logged in as ' + client.user.tag)
-
-    if (!await db.schema.hasTable('data')) {
-        await db.schema.createTable('data', (table) => {
-            table.increments('id').primary()
-            table.string('imgKey')
-            table.string('vidKey')
-            table.string('name')
-            table.timestamp('createdAt')
-        })
-    }
 })
 
 let tempStorage = {};
