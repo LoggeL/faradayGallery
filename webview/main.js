@@ -138,14 +138,18 @@ function popuplateGallery() {
             text.innerText = picture.name.split('_').splice(1).join(' ')
 
             const like = document.createElement('div')
-            like.innerText = picture.votes
+            const voteSpan = document.createElement('span')
+            voteSpan.innerText = picture.votes
+            like.appendChild(voteSpan)
             like.className = 'like'
 
             const likeBtn = document.createElement('a')
             likeBtn.className = 'likeButton'
             likeBtn.onclick = e => {
                 e.preventDefault()
+                likeBtn.onclick = ''
                 likeBtn.classList.add('liked')
+                
                 heart.src = 'heart-solid.svg'
                 fetch('challenge', {
                     method: 'POST',
@@ -157,7 +161,11 @@ function popuplateGallery() {
                     })
                 }).then(response => response.json().then(data => {
 
-                    if (data.error) return
+                    if (data.error) return 
+
+                    const likeCountNode = likeBtn.parentElement.childNodes[0]
+                    likeCountNode.innerText = parseInt(likeCountNode.innerText) + 1
+                    
                     const PoWWorker = new Worker('worker.js');
                     PoWWorker.postMessage({
                         input: data.hash,
