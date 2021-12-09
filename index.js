@@ -50,7 +50,6 @@ app.post('/data', async (req, res) => {
     const data = await baseQuery.offset(pageLimit * (page - 1))
         .limit(pageLimit)
         
-    
     res.status(200).json(data)
 })
 

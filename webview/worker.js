@@ -6,7 +6,6 @@ onmessage = async function(e) {
         hashInput = e.data.input + i.toString('16');
         hashResult = await hash(hashInput);
     } while (hashResult.slice(e.data.complexity * -1) != '0'.repeat(e.data.complexity))
-    console.log(i, hashInput, hashResult)
     postMessage(i.toString('16'));
 }
 
